@@ -15,3 +15,12 @@ WHERE categoryid = 1 AND NOT (unitprice >= 20 OR unitprice < 10)
 -- IS NULL
 -- İşlem Önceliği:
 -- Paratezler, karşılaştırma operatörleri, not, and, or
+
+SELECT * from Products
+WHERE categoryid IN(1,2) 
+	AND (unitprice BETWEEN 10 and 20) 
+  AND (productname LIKE '%G%' AND productname LIKE '%S%')
+
+SELECT * FROM Customers 
+-- WHERE fax IS NULL
+WHERE NOT fax IS NULL
