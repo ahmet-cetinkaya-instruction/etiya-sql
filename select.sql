@@ -98,3 +98,27 @@ Join Categories on Products.CategoryID = Categories.CategoryID
 SELECT Customers.CustomerID, Customers.CompanyName, Orders.OrderID, Orders.OrderDate FROM Customers 
 LEFT join Orders on Customers.CustomerID = Orders.CustomerID
 Order by Customers.CustomerID
+
+SELECT Suppliers.SupplierID, Suppliers.CompanyName, COUNT(Products.ProductID) as ProductCount FROM Suppliers 
+LEFt join Products on Suppliers.SupplierID = Products.SupplierID
+GROUP by Suppliers.SupplierID
+
+SELECT Employees.EmployeeID, Employees.FirstName, Employees.LastName, Employees.Title, Orders.OrderID FROM Orders 
+RIGHT join Employees on Employees.EmployeeID = Orders.EmployeeID
+ORDER by Employees.EmployeeID
+
+SELECT Customers.CustomerID, Customers.CompanyName, Orders.ShippedDate FROM Orders 
+RIGHT join Customers on Orders.CustomerID == Customers.CustomerID
+order by Customers.CustomerID
+
+SELECT Products.ProductName, Categories.CategoryName FROM Products 
+Cross join Categories;
+
+-- Self join
+SELECT e1.EmployeeID, CONCAT(e1.FirstName, ' ', e1.LastName) as "Çalışan", CONCAT(e2.FirstName, ' ', e2.LastName) as "Yöneticisi" FROM Employees e1
+join Employees e2 on e1.ReportsTo = e2.EmployeeID
+
+SELECT Products.ProductName, Categories.CategoryName, Suppliers.CompanyName, "Order Details"."OrderID" FROM Products 
+left join Categories on Products.CategoryID = Categories.CategoryID
+join Suppliers on Products.SupplierID = Suppliers.SupplierID
+RIGHT join "Order Details" on "Order Details"."ProductID" = Products.ProductID
