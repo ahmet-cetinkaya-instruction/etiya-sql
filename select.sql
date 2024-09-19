@@ -91,3 +91,10 @@ order by
     	 else 0
     end,
     productname DESC
+
+SELECT Products.ProductID, Products.ProductName, Products.CategoryID, Categories.CategoryName FROM Products 
+Join Categories on Products.CategoryID = Categories.CategoryID
+
+SELECT Customers.CustomerID, Customers.CompanyName, Orders.OrderID, Orders.OrderDate FROM Customers 
+LEFT join Orders on Customers.CustomerID = Orders.CustomerID
+Order by Customers.CustomerID
