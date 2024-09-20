@@ -139,16 +139,22 @@ where categoryid in(
   Select categoryid from Categories 
   where categoryname in('Beverages', 'Confections')
   )
-
-SELECT productname FROM Products p
-WHERE EXISTS (
-  Select 1 from Suppliers s
-  where s.SupplierID = p.SupplierID
-  	and s.Country = 'USA'
-  )
   
 SELECT productname FROM Products
 WHERE supplierid in (
   Select supplierid from Suppliers
   where country = 'USA'
   )
+
+-- Kapsayıcı (Correlated) alt sorgular
+SELECT productname FROM Products p
+WHERE EXISTS (
+  Select 1 from Suppliers s
+  where s.SupplierID = p.SupplierID
+  	and s.Country = 'USA'
+  )
+
+SELECT p.productname, p.categoryid, c.CategoryName from Products p
+join Categories c on c.categoryid = p.CategoryID
+where unitprice > (select AVG(unitprice) FROM Products p2
+                   WHERE p2.categoryid = p.CategoryID)
