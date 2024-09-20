@@ -122,3 +122,33 @@ SELECT Products.ProductName, Categories.CategoryName, Suppliers.CompanyName, "Or
 left join Categories on Products.CategoryID = Categories.CategoryID
 join Suppliers on Products.SupplierID = Suppliers.SupplierID
 RIGHT join "Order Details" on "Order Details"."ProductID" = Products.ProductID
+
+
+SELECT * FROM Products 
+where unitprice > (SELECT AVG(unitprice) from Products) -- 28.8
+
+SELECT * FROM Products 
+where unitprice = (SELECT MAX(unitprice) from Products) -- ProductId: 38
+
+SELECT orderid, orderdate from Orders
+where orderdate = (select min(orderdate) from orders where customerid = 'ALFKI')
+	and customerid = 'ALFKI'
+    
+select * from Products
+where categoryid in(
+  Select categoryid from Categories 
+  where categoryname in('Beverages', 'Confections')
+  )
+
+SELECT productname FROM Products p
+WHERE EXISTS (
+  Select 1 from Suppliers s
+  where s.SupplierID = p.SupplierID
+  	and s.Country = 'USA'
+  )
+  
+SELECT productname FROM Products
+WHERE supplierid in (
+  Select supplierid from Suppliers
+  where country = 'USA'
+  )
