@@ -158,3 +158,18 @@ SELECT p.productname, p.categoryid, c.CategoryName from Products p
 join Categories c on c.categoryid = p.CategoryID
 where unitprice > (select AVG(unitprice) FROM Products p2
                    WHERE p2.categoryid = p.CategoryID)
+
+-- nested join
+SELECT c.CustomerID, c.CompanyName, COUNT(OrdersIn2023.CustomerID) from Customers c
+JOIN (Select o.CustomerID from Orders o 
+  		WHERE o.OrderDate BETWEEN '2023-01-01' AND '2023-12-31'
+	 ) as OrdersIn2023
+ON c.CustomerID = OrdersIn2023.CustomerID
+GROUP BY c.CustomerID
+
+SELECT c.CustomerID, c.CompanyName, CustomerOrders.OrderCount from Customers c
+JOIN (SELECT o.CustomerID, COUNT(orderid) as OrderCount from Orders o
+  	  GROUP by o.CustomerID
+  	  HAVING COUNT(o.OrderID) > 180
+  	 ) as CustomerOrders
+     ON c.CustomerID = CustomerOrders.CustomerID
