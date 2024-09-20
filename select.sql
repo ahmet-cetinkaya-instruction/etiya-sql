@@ -173,3 +173,17 @@ JOIN (SELECT o.CustomerID, COUNT(orderid) as OrderCount from Orders o
   	  HAVING COUNT(o.OrderID) > 180
   	 ) as CustomerOrders
      ON c.CustomerID = CustomerOrders.CustomerID
+
+-- Özyinelemeli (Recursive) sorgular
+WITH RECURSIVE EmployeeHiearchy(EmployeeID, EmployeeFullName, ManagerId, Level) as (
+	-- Anchor query
+  	SELECT EmployeeID, CONCAT(firstname,' ',lastname) as EmployeeFullName, reportsto as ManegerId, 1 as Level from Employees
+  	WHERE reportsto is null
+  
+  	UNION ALL
+  
+  	-- Recursive
+    SELECT e.EmployeeID, CONCAT(e.firstname,' ',e.lastname) as EmployeeFullName, e.reportsto as ManegerId, eh.Level + 1 as Level from Employees e
+  	JOIN EmployeeHiearchy eh ON e.ReportsTo == eh.EmployeeID
+)
+SELECT * FROM EmployeeHiearchy
